@@ -3,6 +3,9 @@ import hmac
 import hashlib
 import base64
 import requests
+
+from urllib.parse import urlunsplit, urlencode
+
 from src.interfolio_far_config import InterfolioFARConfig
 
 
@@ -12,7 +15,7 @@ class InterfolioFAR:
             database_id=database_id, public_key=public_key, private_key=private_key
         )
 
-    def get_units(self, data: str, unit_id=None, limit: int = None, offset: int = None):
+    def get_units(self, **query_params):
         """
         :param data: count, summary, or detailed
         :param unit_id: ID of academic unit
@@ -22,17 +25,23 @@ class InterfolioFAR:
         """
         api_endpoint = "/units"
         api_method = "GET"
-        query_params = f"?data={data}"
-
         headers = self._build_headers(api_endpoint, api_method)
-        api_url = self._build_api_url(api_endpoint, query_params)
+        api_url = self._build_api_url(api_endpoint, **query_params)
+        return self._make_request(api_url, headers)
 
-        response = requests.get(api_url, headers=headers)
-        response_text = response.text
-        return response_text
+    @staticmethod
+    def _make_request(api_url, headers):
+        try:
+            response = requests.get(api_url, headers=headers)
+            response.raise_for_status()
+            return response
+        except requests.exceptions.HTTPError as err:
+            raise SystemExit(err)
 
-    def _build_api_url(self, api_endpoint, query_params):
-        return self.config.host + api_endpoint + query_params
+    def _build_api_url(self, api_endpoint, **query_params):
+        query = urlencode(query_params)
+        url = urlunsplit(("https", self.config.host, api_endpoint, query, ""))
+        return url
 
     def _build_headers(self, api_endpoint, api_method):
         timestamp = self._create_timestamp()

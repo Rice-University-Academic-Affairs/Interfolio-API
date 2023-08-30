@@ -6,7 +6,7 @@ class InterfolioFARConfig:
         self.database_id = self._get_database_id(database_id)
         self.public_key = self._get_public_key(public_key)
         self.private_key = self._get_private_key(private_key)
-        self.host = "https://faculty180.interfolio.com/api.php"
+        self.host = "faculty180.interfolio.com/api.php"
 
     def _get_database_id(self, database_id):
         if database_id is not None:
