@@ -3,7 +3,7 @@
   <component name="Black">
     <option name="enabledOnReformat" value="true" />
     <option name="enabledOnSave" value="true" />
-    <option name="sdkUUID" value="9d432b86-cabf-422a-a909-a2e2da5d3b2c" />
+    <option name="sdkUUID" value="37f2d549-8cb4-4c3c-84d6-240d2756d972" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (Software-Development-Template)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (Interfolio-FAR-API)" project-jdk-type="Python SDK" />
 </project>
