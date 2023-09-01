@@ -107,6 +107,36 @@ class InterfolioFAR:
         api_method = "GET"
         return self._build_and_send_request(api_endpoint, api_method, **query_params)
 
+    def get_activity_classifications(self, **query_params):
+        api_endpoint = "/activityclassifications"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_course_prefixes(self, **query_params):
+        api_endpoint = "/courseprefixes"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_courses(self, **query_params):
+        api_endpoint = "/courses"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_courses_taught(self, **query_params):
+        api_endpoint = "/coursestaught"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_course_taught(self, course_taught_id, **query_params):
+        api_endpoint = f"/coursestaught/{course_taught_id}"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_course_taught_attachments(self, course_taught_id, **query_params):
+        api_endpoint = f"/coursestaught/{course_taught_id}/attachments"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
     def _build_and_send_request(self, api_endpoint, api_method, **query_params):
         api_url = self._build_api_url(api_endpoint, **query_params)
         headers = self._build_headers(api_endpoint, api_method)

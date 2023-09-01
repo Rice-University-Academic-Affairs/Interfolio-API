@@ -236,6 +236,87 @@ class TestInterfolioFAR:
             **query_params,
         )
 
+    def test_get_activity_classifications(self, far):
+        api_endpoint = "/activityclassifications"
+        api_method = "GET"
+        query_params = {"param": "value"}
+        request_made_with_correct_arguments(
+            far.get_activity_classifications,
+            api_endpoint,
+            api_method,
+            **query_params,
+        )
+
+    def test_get_course_prefixes(self, far):
+        api_endpoint = "/courseprefixes"
+        api_method = "GET"
+        query_params = {"param": "value"}
+        request_made_with_correct_arguments(
+            far.get_course_prefixes,
+            api_endpoint,
+            api_method,
+            **query_params,
+        )
+
+    def test_get_courses(self, far):
+        api_endpoint = "/courses"
+        api_method = "GET"
+        query_params = {"param": "value"}
+        request_made_with_correct_arguments(
+            far.get_courses,
+            api_endpoint,
+            api_method,
+            **query_params,
+        )
+
+    def test_get_courses(self, far):
+        api_endpoint = "/courses"
+        api_method = "GET"
+        query_params = {"param": "value"}
+        request_made_with_correct_arguments(
+            far.get_courses,
+            api_endpoint,
+            api_method,
+            **query_params,
+        )
+
+    def test_get_courses_taught(self, far):
+        api_endpoint = "/coursestaught"
+        api_method = "GET"
+        query_params = {"param": "value"}
+        request_made_with_correct_arguments(
+            far.get_courses_taught,
+            api_endpoint,
+            api_method,
+            **query_params,
+        )
+
+    def test_get_course_taught(self, far):
+        course_taught_id = "fake0123"
+        api_endpoint = f"/coursestaught/{course_taught_id}"
+        api_method = "GET"
+        query_params = {"param": "value"}
+        request_made_with_correct_arguments(
+            far.get_course_taught,
+            api_endpoint,
+            api_method,
+            course_taught_id,
+            **query_params,
+        )
+
+    def test_get_course_taught_attachments(self, far):
+        course_taught_id = "fake0123"
+        api_endpoint = f"/coursestaught/{course_taught_id}/attachments"
+        api_method = "GET"
+        query_params = {"param": "value"}
+        request_made_with_correct_arguments(
+            far.get_course_taught_attachments,
+            api_endpoint,
+            api_method,
+            course_taught_id,
+            **query_params,
+        )
+
     def test__build_and_send_request(self, far):
         api_endpoint = "/endpoint"
         api_method = "GET"

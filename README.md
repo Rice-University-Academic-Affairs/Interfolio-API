@@ -70,9 +70,17 @@ far_api.get_sections(data="count")
 far_api.get_section(section_id="fake_id", data="summary")
 
 # Activities
-far_api.get_activities_ids_for_sections(data="detailed", verbose="1", sectionid="fake_id")
+far_api.get_activities_ids_in_sections(data="detailed", verbose="1", sectionid="fake_id")
 far_api.get_activities_ids_for_section(section_id="fake_id", data="detailed")
 far_api.get_activities_details_for_section(section_id="fake_id")
 far_api.get_activity_details(section_id="fake_id", activity_id="fake_id", data="detailed")
 far_api.get_activity_attachments(section_id="fake_id", activity_id="fake_id", data="detailed")
+far_api.get_activity_classifications(data="summary")
+
+# Courses
+far_api.get_course_prefixes(data="summary")
+far_api.get_courses(prefixes="MUSI", data="summary")
+far_api.get_courses_taught(termid="2021/02", data="detailed", limit=2)
+far_api.get_course_taught(course_taught_id="200", data="detailed")
+far_api.get_course_taught_attachments("200")
 ```
