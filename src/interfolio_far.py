@@ -15,31 +15,6 @@ class InterfolioFAR:
             database_id=database_id, public_key=public_key, private_key=private_key
         )
 
-    def get_permissions(self, **query_params):
-        api_endpoint = "/users/permissions"
-        api_method = "GET"
-        return self._build_and_send_request(api_endpoint, api_method, **query_params)
-
-    def get_permission(self, user_id, **query_params):
-        api_endpoint = f"/users/{user_id}/permissions"
-        api_method = "GET"
-        return self._build_and_send_request(api_endpoint, api_method, **query_params)
-
-    def get_users(self, **query_params):
-        api_endpoint = "/users"
-        api_method = "GET"
-        return self._build_and_send_request(api_endpoint, api_method, **query_params)
-
-    def get_user(self, user_id, **query_params):
-        api_endpoint = f"/users/{user_id}"
-        api_method = "GET"
-        return self._build_and_send_request(api_endpoint, api_method, **query_params)
-
-    def get_terms(self, **query_params):
-        api_endpoint = "/terms"
-        api_method = "GET"
-        return self._build_and_send_request(api_endpoint, api_method, **query_params)
-
     def get_units(self, **query_params):
         """
         :param data: count, summary, or detailed
@@ -57,6 +32,31 @@ class InterfolioFAR:
         api_method = "GET"
         return self._build_and_send_request(api_endpoint, api_method, **query_params)
 
+    def get_terms(self, **query_params):
+        api_endpoint = "/terms"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_users(self, **query_params):
+        api_endpoint = "/users"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_user(self, user_id, **query_params):
+        api_endpoint = f"/users/{user_id}"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_permissions(self, **query_params):
+        api_endpoint = "/users/permissions"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_permission(self, user_id, **query_params):
+        api_endpoint = f"/users/{user_id}/permissions"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
     def _build_and_send_request(self, api_endpoint, api_method, **query_params):
         api_url = self._build_api_url(api_endpoint, **query_params)
         headers = self._build_headers(api_endpoint, api_method)
@@ -67,7 +67,7 @@ class InterfolioFAR:
         try:
             response = requests.get(api_url, headers=headers)
             response.raise_for_status()
-            return response
+            return response.text
         except requests.exceptions.HTTPError as err:
             raise SystemExit(err)
 
