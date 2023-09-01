@@ -47,16 +47,32 @@ far_api = InterfolioFAR()
 
 # Units
 far_api.get_units(data="summary")
-far_api.get_unit(unit_id="id_012345", data="summary")
+far_api.get_unit(unit_id="fake_id", data="summary")
 
 # Terms
 far_api.get_terms(yearlist="2017,2018,2019", data="summary")
 
 # Users
 far_api.get_users(employmentstatus="Full Time", data="summary")
-far_api.get_user(user_id="id_012345", data="summary")
+far_api.get_user(user_id="fake_id", data="summary")
 
 # Permissions
 far_api.get_permissions(data="count")
-far_api.get_permission(user_id="id_012345", data="summary")
+far_api.get_permission(user_id="fake_id", data="summary")
+
+# Faculty Classifications
+far_api.get_faculty_classification_data(data="count")
+far_api.get_faculty_classifications(data="summary")
+far_api.get_faculty_classification(faculty_classification_id="fake_id", data="summary")
+
+# Sections
+far_api.get_sections(data="count")
+far_api.get_section(section_id="fake_id", data="summary")
+
+# Activities
+far_api.get_activities_ids_for_sections(data="detailed", verbose="1", sectionid="fake_id")
+far_api.get_activities_ids_for_section(section_id="fake_id", data="detailed")
+far_api.get_activities_details_for_section(section_id="fake_id")
+far_api.get_activity_details(section_id="fake_id", activity_id="fake_id", data="detailed")
+far_api.get_activity_attachments(section_id="fake_id", activity_id="fake_id", data="detailed")
 ```

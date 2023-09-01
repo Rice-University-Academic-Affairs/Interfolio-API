@@ -169,6 +169,73 @@ class TestInterfolioFAR:
             **query_params,
         )
 
+    def test_get_activities_ids_in_sections(self, far):
+        api_endpoint = "/activities"
+        api_method = "GET"
+        query_params = {"sectionid": "fake123"}
+        request_made_with_correct_arguments(
+            far.get_activities_ids_in_sections,
+            api_endpoint,
+            api_method,
+            **query_params,
+        )
+
+    def test_get_activities_ids_for_section(self, far):
+        section_id = "fake0123"
+        api_endpoint = f"/activities/{section_id}"
+        api_method = "GET"
+        query_params = {"param": "value"}
+        request_made_with_correct_arguments(
+            far.get_activities_ids_for_section,
+            api_endpoint,
+            api_method,
+            section_id,
+            **query_params,
+        )
+
+    def test_get_activities_details_for_section(self, far):
+        section_id = "fake0123"
+        api_endpoint = f"/activities_details/{section_id}"
+        api_method = "GET"
+        query_params = {"param": "value"}
+        request_made_with_correct_arguments(
+            far.get_activities_details_for_section,
+            api_endpoint,
+            api_method,
+            section_id,
+            **query_params,
+        )
+
+    def test_get_activity_details(self, far):
+        section_id = "fake0123"
+        activity_id = "fake1234"
+        api_endpoint = f"/activities/{section_id}/{activity_id}"
+        api_method = "GET"
+        query_params = {"param": "value"}
+        request_made_with_correct_arguments(
+            far.get_activity_details,
+            api_endpoint,
+            api_method,
+            section_id,
+            activity_id,
+            **query_params,
+        )
+
+    def test_get_activity_attachments(self, far):
+        section_id = "fake0123"
+        activity_id = "fake1234"
+        api_endpoint = f"/activities/{section_id}/{activity_id}/attachments"
+        api_method = "GET"
+        query_params = {"param": "value"}
+        request_made_with_correct_arguments(
+            far.get_activity_attachments,
+            api_endpoint,
+            api_method,
+            section_id,
+            activity_id,
+            **query_params,
+        )
+
     def test__build_and_send_request(self, far):
         api_endpoint = "/endpoint"
         api_method = "GET"
