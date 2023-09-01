@@ -51,21 +51,29 @@ class TestInterfolioFAR:
     #     )
     #     assert dev_far.get_units(data="count").status_code == 200
 
-    def test_get_permissions(self, far):
-        api_endpoint = "/users/permissions"
+    def test_get_units(self, far):
+        api_endpoint = "/units"
         api_method = "GET"
-        query_params = {"userlist": "fake123,fake234"}
+        query_params = {"data": "count"}
         request_made_with_correct_arguments(
-            far.get_permissions, api_endpoint, api_method, **query_params
+            far.get_units, api_endpoint, api_method, **query_params
         )
 
-    def test_get_permission(self, far):
-        user_id = "fake123"
-        api_endpoint = f"/users/{user_id}/permissions"
+    def test_get_unit(self, far):
+        unit_id = 2
+        api_endpoint = f"/units/{unit_id}"
         api_method = "GET"
-        query_params = {"rights": "1"}
+        query_params = {"data": "count"}
         request_made_with_correct_arguments(
-            far.get_permission, api_endpoint, api_method, user_id, **query_params
+            far.get_unit, api_endpoint, api_method, unit_id, **query_params
+        )
+
+    def test_get_terms(self, far):
+        api_endpoint = "/terms"
+        api_method = "GET"
+        query_params = {"yearlist": "2017,2018"}
+        request_made_with_correct_arguments(
+            far.get_terms, api_endpoint, api_method, **query_params
         )
 
     def test_get_users(self, far):
@@ -85,29 +93,80 @@ class TestInterfolioFAR:
             far.get_user, api_endpoint, api_method, user_id, **query_params
         )
 
-    def test_get_terms(self, far):
-        api_endpoint = "/terms"
+    def test_get_permissions(self, far):
+        api_endpoint = "/users/permissions"
         api_method = "GET"
-        query_params = {"yearlist": "2017,2018"}
+        query_params = {"userlist": "fake123,fake234"}
         request_made_with_correct_arguments(
-            far.get_terms, api_endpoint, api_method, **query_params
+            far.get_permissions, api_endpoint, api_method, **query_params
         )
 
-    def test_get_units(self, far):
-        api_endpoint = "/units"
+    def test_get_permission(self, far):
+        user_id = "fake123"
+        api_endpoint = f"/users/{user_id}/permissions"
         api_method = "GET"
-        query_params = {"data": "count"}
+        query_params = {"rights": "1"}
         request_made_with_correct_arguments(
-            far.get_units, api_endpoint, api_method, **query_params
+            far.get_permission, api_endpoint, api_method, user_id, **query_params
         )
 
-    def test_get_unit(self, far):
-        unit_id = 2
-        api_endpoint = f"/units/{unit_id}"
+    def test_get_faculty_classification_data(self, far):
+        api_endpoint = "/facultyclassificationdata"
         api_method = "GET"
-        query_params = {"data": "count"}
+        query_params = {"userlist": "fake123"}
         request_made_with_correct_arguments(
-            far.get_unit, api_endpoint, api_method, unit_id, **query_params
+            far.get_faculty_classification_data,
+            api_endpoint,
+            api_method,
+            **query_params,
+        )
+
+    def test_get_faculty_classifications(self, far):
+        api_endpoint = "/facultyclassifications"
+        api_method = "GET"
+        query_params = {"unitid": "fake123"}
+        request_made_with_correct_arguments(
+            far.get_faculty_classifications,
+            api_endpoint,
+            api_method,
+            **query_params,
+        )
+
+    def test_get_faculty_classification(self, far):
+        faculty_classification_id = "fake_id"
+        api_endpoint = f"/facultyclassifications/{faculty_classification_id}"
+        api_method = "GET"
+        query_params = {"unitid": "fake123"}
+        request_made_with_correct_arguments(
+            far.get_faculty_classification,
+            api_endpoint,
+            api_method,
+            faculty_classification_id,
+            **query_params,
+        )
+
+    def test_get_sections(self, far):
+        api_endpoint = "/sections"
+        api_method = "GET"
+        query_params = {"sectionid": "fake123"}
+        request_made_with_correct_arguments(
+            far.get_sections,
+            api_endpoint,
+            api_method,
+            **query_params,
+        )
+
+    def test_get_section(self, far):
+        section_id = "fake0123"
+        api_endpoint = f"/sections/{section_id}"
+        api_method = "GET"
+        query_params = {"param": "value"}
+        request_made_with_correct_arguments(
+            far.get_section,
+            api_endpoint,
+            api_method,
+            section_id,
+            **query_params,
         )
 
     def test__build_and_send_request(self, far):

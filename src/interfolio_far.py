@@ -57,6 +57,31 @@ class InterfolioFAR:
         api_method = "GET"
         return self._build_and_send_request(api_endpoint, api_method, **query_params)
 
+    def get_faculty_classification_data(self, **query_params):
+        api_endpoint = "/facultyclassificationdata"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_faculty_classifications(self, **query_params):
+        api_endpoint = "/facultyclassifications"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_faculty_classification(self, faculty_classification_id, **query_params):
+        api_endpoint = f"/facultyclassifications/{faculty_classification_id}"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_sections(self, **query_params):
+        api_endpoint = "/sections"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_section(self, section_id, **query_params):
+        api_endpoint = f"/sections/{section_id}"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
     def _build_and_send_request(self, api_endpoint, api_method, **query_params):
         api_url = self._build_api_url(api_endpoint, **query_params)
         headers = self._build_headers(api_endpoint, api_method)
