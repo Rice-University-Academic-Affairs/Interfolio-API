@@ -47,6 +47,11 @@ class InterfolioFAR:
         api_method = "GET"
         return self._build_and_send_request(api_endpoint, api_method, **query_params)
 
+    def get_tenant_ids(self):
+        api_endpoint = "/users/current"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method)
+
     def get_permissions(self, **query_params):
         api_endpoint = "/users/permissions"
         api_method = "GET"
@@ -134,6 +139,26 @@ class InterfolioFAR:
 
     def get_course_taught_attachments(self, course_taught_id, **query_params):
         api_endpoint = f"/coursestaught/{course_taught_id}/attachments"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_evaluations(self, **query_params):
+        api_endpoint = "/evaluations"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_vitae(self, **query_params):
+        api_endpoint = "/vitas"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_vita(self, user_id, vita_id, **query_params):
+        api_endpoint = f"/vitas/{vita_id}/{user_id}"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_paginated_vitae(self, tenant_id, **query_params):
+        api_endpoint = f"/{tenant_id}/vita_templates"
         api_method = "GET"
         return self._build_and_send_request(api_endpoint, api_method, **query_params)
 
