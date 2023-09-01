@@ -15,8 +15,23 @@ class InterfolioFAR:
             database_id=database_id, public_key=public_key, private_key=private_key
         )
 
+    def get_permissions(self, **query_params):
+        api_endpoint = "/users/permissions"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_permission(self, user_id, **query_params):
+        api_endpoint = f"/users/{user_id}/permissions"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
     def get_users(self, **query_params):
         api_endpoint = "/users"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_user(self, user_id, **query_params):
+        api_endpoint = f"/users/{user_id}"
         api_method = "GET"
         return self._build_and_send_request(api_endpoint, api_method, **query_params)
 

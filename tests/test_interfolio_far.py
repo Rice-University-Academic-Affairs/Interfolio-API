@@ -51,12 +51,38 @@ class TestInterfolioFAR:
     #     )
     #     assert dev_far.get_units(data="count").status_code == 200
 
+    def test_get_permissions(self, far):
+        api_endpoint = "/users/permissions"
+        api_method = "GET"
+        query_params = {"userlist": "fake123,fake234"}
+        request_made_with_correct_arguments(
+            far.get_permissions, api_endpoint, api_method, **query_params
+        )
+
+    def test_get_permission(self, far):
+        user_id = "fake123"
+        api_endpoint = f"/users/{user_id}/permissions"
+        api_method = "GET"
+        query_params = {"rights": "1"}
+        request_made_with_correct_arguments(
+            far.get_permission, api_endpoint, api_method, user_id, **query_params
+        )
+
     def test_get_users(self, far):
         api_endpoint = "/users"
         api_method = "GET"
         query_params = {"employmentstatus": "Full Time"}
         request_made_with_correct_arguments(
             far.get_users, api_endpoint, api_method, **query_params
+        )
+
+    def test_get_user(self, far):
+        user_id = "fake123"
+        api_endpoint = f"/users/{user_id}"
+        api_method = "GET"
+        query_params = {"extra": "gender"}
+        request_made_with_correct_arguments(
+            far.get_user, api_endpoint, api_method, user_id, **query_params
         )
 
     def test_get_terms(self, far):
