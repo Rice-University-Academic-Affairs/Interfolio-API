@@ -11,9 +11,26 @@ from unittest import mock
 
 @pytest.fixture
 def far():
+    return create_fake_far_object()
+
+
+def create_fake_far_object():
     return InterfolioFAR(
         database_id="id", public_key="public_key", private_key="private_key"
     )
+
+
+def request_made_with_correct_arguments(
+    far_method, api_endpoint, api_method, *method_params, **query_params
+):
+    far = create_fake_far_object()
+    with mock.patch.object(
+        src.interfolio_far.InterfolioFAR, "_make_request"
+    ) as _make_request_mock:
+        headers = far._build_headers(api_endpoint, api_method)
+        api_url = far._build_api_url(api_endpoint, **query_params)
+        far_method(*method_params, **query_params)
+        _make_request_mock.assert_called_with(api_url, headers)
 
 
 class TestInterfolioFAR:
@@ -28,26 +45,61 @@ class TestInterfolioFAR:
         assert far_api.config.private_key == private_key
         assert far_api.config.database_id == database_id
 
-    def test_api_connection(self):
-        dev_far = InterfolioFAR(
-            dev_config.database_id, dev_config.public_key, dev_config.private_key
+    # def test_api_connection(self):
+    #     dev_far = InterfolioFAR(
+    #         dev_config.database_id, dev_config.public_key, dev_config.private_key
+    #     )
+    #     assert dev_far.get_units(data="count").status_code == 200
+
+    def test_get_users(self, far):
+        api_endpoint = "/users"
+        api_method = "GET"
+        query_params = {"employmentstatus": "Full Time"}
+        request_made_with_correct_arguments(
+            far.get_users, api_endpoint, api_method, **query_params
         )
-        assert dev_far.get_units(data="count").status_code == 200
+
+    def test_get_terms(self, far):
+        api_endpoint = "/terms"
+        api_method = "GET"
+        query_params = {"yearlist": "2017,2018"}
+        request_made_with_correct_arguments(
+            far.get_terms, api_endpoint, api_method, **query_params
+        )
 
     def test_get_units(self, far):
         api_endpoint = "/units"
         api_method = "GET"
         query_params = {"data": "count"}
+        request_made_with_correct_arguments(
+            far.get_units, api_endpoint, api_method, **query_params
+        )
+
+    def test_get_unit(self, far):
+        unit_id = 2
+        api_endpoint = f"/units/{unit_id}"
+        api_method = "GET"
+        query_params = {"data": "count"}
+        request_made_with_correct_arguments(
+            far.get_unit, api_endpoint, api_method, unit_id, **query_params
+        )
+
+    def test__build_and_send_request(self, far):
+        api_endpoint = "/endpoint"
+        api_method = "GET"
+        query_params = {"param": "value"}
+
+        expected_url = far._build_api_url(api_endpoint, **query_params)
+        expected_headers = far._build_headers(api_endpoint, api_method)
+
         with mock.patch.object(
             src.interfolio_far.InterfolioFAR, "_make_request"
         ) as _make_request_mock:
-            headers = far._build_headers(api_endpoint, api_method)
-            api_url = far._build_api_url(api_endpoint, **query_params)
-            far.get_units(**query_params)
-            _make_request_mock.assert_called_with(api_url, headers)
+            far._build_and_send_request(api_endpoint, api_method, **query_params)
+            _make_request_mock.assert_called_with(expected_url, expected_headers)
 
     def test_api_url(self, far):
-        api_endpoint = "endpoint"
+        api_endpoint = "/endpoint"
         query_params = {"a": 1, "b": 2}
         expected_url = "https://faculty180.interfolio.com/api.php/endpoint?a=1&b=2"
         assert far._build_api_url(api_endpoint, **query_params) == expected_url

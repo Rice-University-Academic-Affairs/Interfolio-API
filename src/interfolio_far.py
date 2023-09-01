@@ -15,6 +15,16 @@ class InterfolioFAR:
             database_id=database_id, public_key=public_key, private_key=private_key
         )
 
+    def get_users(self, **query_params):
+        api_endpoint = "/users"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_terms(self, **query_params):
+        api_endpoint = "/terms"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
     def get_units(self, **query_params):
         """
         :param data: count, summary, or detailed
@@ -25,8 +35,16 @@ class InterfolioFAR:
         """
         api_endpoint = "/units"
         api_method = "GET"
-        headers = self._build_headers(api_endpoint, api_method)
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_unit(self, unit_id, **query_params):
+        api_endpoint = f"/units/{unit_id}"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def _build_and_send_request(self, api_endpoint, api_method, **query_params):
         api_url = self._build_api_url(api_endpoint, **query_params)
+        headers = self._build_headers(api_endpoint, api_method)
         return self._make_request(api_url, headers)
 
     @staticmethod
