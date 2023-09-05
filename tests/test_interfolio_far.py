@@ -93,6 +93,14 @@ class TestInterfolioFAR:
             far.get_user, api_endpoint, api_method, user_id, **query_params
         )
 
+    def test_get_user_data(self, far):
+        api_endpoint = "/userdata"
+        api_method = "GET"
+        query_params = {"extra": "gender"}
+        assert_request_made_with_correct_arguments(
+            far.get_user_data, api_endpoint, api_method, **query_params
+        )
+
     def test_get_tenant_ids(self, far):
         api_endpoint = "/users/current"
         api_method = "GET"
@@ -371,6 +379,19 @@ class TestInterfolioFAR:
             api_endpoint,
             api_method,
             tenant_id,
+            **query_params,
+        )
+
+    def test_download_attachment(self, far):
+        attachment_id = "fake_id"
+        api_endpoint = f"/downloadattachments/{attachment_id}"
+        api_method = "GET"
+        query_params = {"param": "value"}
+        assert_request_made_with_correct_arguments(
+            far.download_attachment,
+            api_endpoint,
+            api_method,
+            attachment_id,
             **query_params,
         )
 

@@ -47,6 +47,11 @@ class InterfolioFAR:
         api_method = "GET"
         return self._build_and_send_request(api_endpoint, api_method, **query_params)
 
+    def get_user_data(self, **query_params):
+        api_endpoint = "/userdata"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
     def get_tenant_ids(self):
         api_endpoint = "/users/current"
         api_method = "GET"
@@ -159,6 +164,11 @@ class InterfolioFAR:
 
     def get_paginated_vitae(self, tenant_id, **query_params):
         api_endpoint = f"/{tenant_id}/vita_templates"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def download_attachment(self, attachment_id, **query_params):
+        api_endpoint = f"/downloadattachments/{attachment_id}"
         api_method = "GET"
         return self._build_and_send_request(api_endpoint, api_method, **query_params)
 
