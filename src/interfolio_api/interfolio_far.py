@@ -3,10 +3,11 @@ import hmac
 import hashlib
 import base64
 import requests
+import json
 
 from urllib.parse import urlunsplit, urlencode
 
-from src.interfolio_far_config import InterfolioFARConfig
+from src.interfolio_api.interfolio_far_config import InterfolioFARConfig
 
 
 class InterfolioFAR:
@@ -182,7 +183,7 @@ class InterfolioFAR:
         try:
             response = requests.get(api_url, headers=headers)
             response.raise_for_status()
-            return response.text
+            return json.loads(response.text)
         except requests.exceptions.HTTPError as err:
             raise SystemExit(err)
 

@@ -1,7 +1,7 @@
 import os
 import pytest
 from unittest import mock
-from src.interfolio_far_config import InterfolioFARConfig
+from src.interfolio_api.interfolio_far_config import InterfolioFARConfig
 
 
 class TestInterfolioFARConfig:

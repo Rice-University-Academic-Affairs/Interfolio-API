@@ -2,9 +2,7 @@ import pytest
 import hmac
 import hashlib
 import base64
-import src.interfolio_far
-from src.interfolio_far import InterfolioFAR
-from src.constants import dev_config
+from src.interfolio_api.interfolio_far import InterfolioFAR
 from freezegun import freeze_time
 from unittest import mock
 
@@ -24,9 +22,7 @@ def assert_request_made_with_correct_arguments(
     far_method, api_endpoint, api_method, *method_params, **query_params
 ):
     far = create_fake_far_object()
-    with mock.patch.object(
-        src.interfolio_far.InterfolioFAR, "_make_request"
-    ) as _make_request_mock:
+    with mock.patch.object(InterfolioFAR, "_make_request") as _make_request_mock:
         headers = far._build_headers(api_endpoint, api_method)
         api_url = far._build_api_url(api_endpoint, **query_params)
         far_method(*method_params, **query_params)
@@ -403,9 +399,7 @@ class TestInterfolioFAR:
         expected_url = far._build_api_url(api_endpoint, **query_params)
         expected_headers = far._build_headers(api_endpoint, api_method)
 
-        with mock.patch.object(
-            src.interfolio_far.InterfolioFAR, "_make_request"
-        ) as _make_request_mock:
+        with mock.patch.object(InterfolioFAR, "_make_request") as _make_request_mock:
             far._build_and_send_request(api_endpoint, api_method, **query_params)
             _make_request_mock.assert_called_with(expected_url, expected_headers)
 
