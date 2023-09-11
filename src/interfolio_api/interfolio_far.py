@@ -7,7 +7,7 @@ import json
 
 from urllib.parse import urlunsplit, urlencode
 
-from src.interfolio_api.interfolio_far_config import InterfolioFARConfig
+from .interfolio_far_config import InterfolioFARConfig
 
 
 class InterfolioFAR:
@@ -120,6 +120,11 @@ class InterfolioFAR:
 
     def get_activity_classifications(self, **query_params):
         api_endpoint = "/activityclassifications"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, **query_params)
+
+    def get_activity_classification(self, activity_classification_id, **query_params):
+        api_endpoint = f"/activityclassifications/{activity_classification_id}"
         api_method = "GET"
         return self._build_and_send_request(api_endpoint, api_method, **query_params)
 

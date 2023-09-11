@@ -43,7 +43,7 @@ class TestInterfolioFARConfig:
         )
         assert passed_in._get_public_key(fake_key) == fake_key
 
-    @mock.patch.dict(os.environ, {"FAR_PUBLIC_KEY": "fake_public_key"})
+    @mock.patch.dict(os.environ, {"INTERFOLIO_PUBLIC_KEY": "fake_public_key"})
     def test__get_public_key_from_environment(self):
         from_env = InterfolioFARConfig(database_id="id", private_key="key")
         assert from_env._get_public_key(None) == "fake_public_key"
@@ -59,7 +59,7 @@ class TestInterfolioFARConfig:
         )
         assert passed_in._get_private_key(fake_key) == fake_key
 
-    @mock.patch.dict(os.environ, {"FAR_PRIVATE_KEY": "fake_private_key"})
+    @mock.patch.dict(os.environ, {"INTERFOLIO_PRIVATE_KEY": "fake_private_key"})
     def test__get_private_key_from_environment(self):
         from_env = InterfolioFARConfig(database_id="id", public_key="key")
         assert from_env._get_private_key(None) == "fake_private_key"

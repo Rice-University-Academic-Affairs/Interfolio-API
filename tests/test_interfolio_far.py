@@ -258,6 +258,19 @@ class TestInterfolioFAR:
             **query_params,
         )
 
+    def test_get_activity_classification(self, far):
+        activity_classification_id = "fake_id"
+        api_endpoint = f"/activityclassifications/{activity_classification_id}"
+        api_method = "GET"
+        query_params = {"param": "value"}
+        assert_request_made_with_correct_arguments(
+            far.get_activity_classification,
+            api_endpoint,
+            api_method,
+            activity_classification_id,
+            **query_params,
+        )
+
     def test_get_course_prefixes(self, far):
         api_endpoint = "/courseprefixes"
         api_method = "GET"

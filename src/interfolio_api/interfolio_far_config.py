@@ -21,7 +21,7 @@ class InterfolioFARConfig:
         if public_key is not None:
             return public_key
         return self._get_from_environment_or_raise(
-            "FAR_PUBLIC_KEY",
+            "INTERFOLIO_PUBLIC_KEY",
             "`public_key` must either be passed into InterfolioFARConfig or set as the environment variable "
             "'FAR_PUBLIC_KEY'",
         )
@@ -30,7 +30,7 @@ class InterfolioFARConfig:
         if private_key is not None:
             return private_key
         return self._get_from_environment_or_raise(
-            "FAR_PRIVATE_KEY",
+            "INTERFOLIO_PRIVATE_KEY",
             "`private_key` must either be passed into InterfolioFARConfig or set as the environment variable "
             "'FAR_PRIVATE_KEY'",
         )
