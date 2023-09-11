@@ -2,12 +2,12 @@ from setuptools import setup
 
 from pathlib import Path
 
-parent_directory = Path(__file__).parent.parent
-long_description = (parent_directory / "README.md").read_text()
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="interfolio_api",
-    version="0.5",
+    version="0.6",
     description="A Python client for Interfolio",
     long_description=long_description,
     long_description_content_type="text/markdown",
