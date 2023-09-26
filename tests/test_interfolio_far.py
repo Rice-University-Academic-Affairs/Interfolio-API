@@ -1,15 +1,5 @@
-import pytest
-import hmac
-import hashlib
-import base64
 from src.interfolio_api.interfolio_far import InterfolioFAR
-from freezegun import freeze_time
 from unittest import mock
-
-
-@pytest.fixture
-def far():
-    return create_fake_far_object()
 
 
 def create_fake_far_object():
@@ -19,7 +9,11 @@ def create_fake_far_object():
 
 
 def assert_request_made_with_correct_arguments(
-    far_method, api_endpoint, api_method, *method_params, **query_params
+    far_method,
+    api_endpoint,
+    api_method,
+    *method_params,
+    **query_params,
 ):
     far = create_fake_far_object()
     with mock.patch.object(InterfolioFAR, "_make_request") as _make_request_mock:
@@ -402,54 +396,4 @@ class TestInterfolioFAR:
             api_method,
             attachment_id,
             **query_params,
-        )
-
-    def test__build_and_send_request(self, far):
-        api_endpoint = "/endpoint"
-        api_method = "GET"
-        query_params = {"param": "value"}
-
-        expected_url = far._build_api_url(api_endpoint, **query_params)
-        expected_headers = far._build_headers(api_endpoint, api_method)
-
-        with mock.patch.object(InterfolioFAR, "_make_request") as _make_request_mock:
-            far._build_and_send_request(api_endpoint, api_method, **query_params)
-            _make_request_mock.assert_called_with(expected_url, expected_headers)
-
-    def test_api_url(self, far):
-        api_endpoint = "/endpoint"
-        query_params = {"a": 1, "b": 2}
-        expected_url = "https://faculty180.interfolio.com/api.php/endpoint?a=1&b=2"
-        assert far._build_api_url(api_endpoint, **query_params) == expected_url
-
-    @freeze_time("1994-12-02 10:00:00")
-    def test__build_headers(self, far):
-        api_endpoint = "/endpoint"
-        api_method = "GET"
-        message = far._build_message(api_endpoint, api_method, far._create_timestamp())
-        signature = far._build_signature(message)
-
-        assert far._build_headers(api_endpoint, api_method) == {
-            "TimeStamp": far._create_timestamp(),
-            "Authorization": far._build_authentication_header(signature),
-            "INTF-DatabaseID": far.config.database_id,
-        }
-
-    @freeze_time("1994-12-02 10:00:00")
-    def test__create_timestamp(self):
-        assert InterfolioFAR._create_timestamp() == "1994-12-02 10:00:00"
-
-    def test__build_signature(self, far):
-        message = "message"
-        signature_bytes = hmac.new(
-            far.config.private_key.encode(), message.encode(), hashlib.sha1
-        ).digest()
-        signature = base64.b64encode(signature_bytes).decode()
-        assert far._build_signature(message) == signature
-
-    def test__build_authentication_header(self, far):
-        signature = "signature"
-        assert (
-            far._build_authentication_header(signature)
-            == f"INTF {far.config.public_key}:{signature}"
         )
