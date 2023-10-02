@@ -1,26 +1,11 @@
 from src.interfolio_api.interfolio_far import InterfolioFAR
-from unittest import mock
+from conftest import assert_request_made_with_correct_arguments
 
 
 def create_fake_far_object():
     return InterfolioFAR(
         database_id="id", public_key="public_key", private_key="private_key"
     )
-
-
-def assert_request_made_with_correct_arguments(
-    far_method,
-    api_endpoint,
-    api_method,
-    *method_params,
-    **query_params,
-):
-    far = create_fake_far_object()
-    with mock.patch.object(InterfolioFAR, "_make_request") as _make_request_mock:
-        headers = far._build_headers(api_endpoint, api_method)
-        api_url = far._build_api_url(api_endpoint, **query_params)
-        far_method(*method_params, **query_params)
-        _make_request_mock.assert_called_with(api_url, headers)
 
 
 class TestInterfolioFAR:
@@ -35,18 +20,12 @@ class TestInterfolioFAR:
         assert far_api.config.private_key == private_key
         assert far_api.config.database_id == database_id
 
-    # def test_api_connection(self):
-    #     dev_far = InterfolioFAR(
-    #         dev_config.database_id, dev_config.public_key, dev_config.private_key
-    #     )
-    #     assert dev_far.get_units(data="count").status_code == 200
-
     def test_get_units(self, far):
         api_endpoint = "/units"
         api_method = "GET"
         query_params = {"data": "count"}
         assert_request_made_with_correct_arguments(
-            far.get_units, api_endpoint, api_method, **query_params
+            far, "get_units", api_endpoint, api_method, **query_params
         )
 
     def test_get_unit(self, far):
@@ -55,7 +34,7 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"data": "count"}
         assert_request_made_with_correct_arguments(
-            far.get_unit, api_endpoint, api_method, unit_id, **query_params
+            far, "get_unit", api_endpoint, api_method, unit_id, **query_params
         )
 
     def test_get_terms(self, far):
@@ -63,7 +42,7 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"yearlist": "2017,2018"}
         assert_request_made_with_correct_arguments(
-            far.get_terms, api_endpoint, api_method, **query_params
+            far, "get_terms", api_endpoint, api_method, **query_params
         )
 
     def test_get_users(self, far):
@@ -71,7 +50,7 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"employmentstatus": "Full Time"}
         assert_request_made_with_correct_arguments(
-            far.get_users, api_endpoint, api_method, **query_params
+            far, "get_users", api_endpoint, api_method, **query_params
         )
 
     def test_get_user(self, far):
@@ -80,7 +59,7 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"extra": "gender"}
         assert_request_made_with_correct_arguments(
-            far.get_user, api_endpoint, api_method, user_id, **query_params
+            far, "get_user", api_endpoint, api_method, user_id, **query_params
         )
 
     def test_get_user_data(self, far):
@@ -88,14 +67,14 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"extra": "gender"}
         assert_request_made_with_correct_arguments(
-            far.get_user_data, api_endpoint, api_method, **query_params
+            far, "get_user_data", api_endpoint, api_method, **query_params
         )
 
     def test_get_tenant_ids(self, far):
         api_endpoint = "/users/current"
         api_method = "GET"
         assert_request_made_with_correct_arguments(
-            far.get_tenant_ids, api_endpoint, api_method
+            far, "get_tenant_ids", api_endpoint, api_method
         )
 
     def test_get_permissions(self, far):
@@ -103,7 +82,7 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"userlist": "fake123,fake234"}
         assert_request_made_with_correct_arguments(
-            far.get_permissions, api_endpoint, api_method, **query_params
+            far, "get_permissions", api_endpoint, api_method, **query_params
         )
 
     def test_get_permission(self, far):
@@ -112,7 +91,7 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"rights": "1"}
         assert_request_made_with_correct_arguments(
-            far.get_permission, api_endpoint, api_method, user_id, **query_params
+            far, "get_permission", api_endpoint, api_method, user_id, **query_params
         )
 
     def test_get_faculty_classification_data(self, far):
@@ -120,7 +99,8 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"userlist": "fake123"}
         assert_request_made_with_correct_arguments(
-            far.get_faculty_classification_data,
+            far,
+            "get_faculty_classification_data",
             api_endpoint,
             api_method,
             **query_params,
@@ -131,10 +111,7 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"unitid": "fake123"}
         assert_request_made_with_correct_arguments(
-            far.get_faculty_classifications,
-            api_endpoint,
-            api_method,
-            **query_params,
+            far, "get_faculty_classifications", api_endpoint, api_method, **query_params
         )
 
     def test_get_faculty_classification(self, far):
@@ -143,7 +120,8 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"unitid": "fake123"}
         assert_request_made_with_correct_arguments(
-            far.get_faculty_classification,
+            far,
+            "get_faculty_classification",
             api_endpoint,
             api_method,
             faculty_classification_id,
@@ -155,10 +133,7 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"sectionid": "fake123"}
         assert_request_made_with_correct_arguments(
-            far.get_sections,
-            api_endpoint,
-            api_method,
-            **query_params,
+            far, "get_sections", api_endpoint, api_method, **query_params
         )
 
     def test_get_section(self, far):
@@ -167,11 +142,7 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.get_section,
-            api_endpoint,
-            api_method,
-            section_id,
-            **query_params,
+            far, "get_section", api_endpoint, api_method, section_id, **query_params
         )
 
     def test_get_activities_ids_in_sections(self, far):
@@ -179,7 +150,8 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"sectionid": "fake123"}
         assert_request_made_with_correct_arguments(
-            far.get_activities_ids_in_sections,
+            far,
+            "get_activities_ids_in_sections",
             api_endpoint,
             api_method,
             **query_params,
@@ -191,7 +163,8 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.get_activities_ids_for_section,
+            far,
+            "get_activities_ids_for_section",
             api_endpoint,
             api_method,
             section_id,
@@ -204,7 +177,8 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.get_activities_details_for_section,
+            far,
+            "get_activities_details_for_section",
             api_endpoint,
             api_method,
             section_id,
@@ -218,7 +192,8 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.get_activity_details,
+            far,
+            "get_activity_details",
             api_endpoint,
             api_method,
             section_id,
@@ -233,7 +208,8 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.get_activity_attachments,
+            far,
+            "get_activity_attachments",
             api_endpoint,
             api_method,
             section_id,
@@ -246,7 +222,8 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.get_activity_classifications,
+            far,
+            "get_activity_classifications",
             api_endpoint,
             api_method,
             **query_params,
@@ -258,7 +235,8 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.get_activity_classification,
+            far,
+            "get_activity_classification",
             api_endpoint,
             api_method,
             activity_classification_id,
@@ -270,10 +248,7 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.get_course_prefixes,
-            api_endpoint,
-            api_method,
-            **query_params,
+            far, "get_course_prefixes", api_endpoint, api_method, **query_params
         )
 
     def test_get_courses(self, far):
@@ -281,10 +256,7 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.get_courses,
-            api_endpoint,
-            api_method,
-            **query_params,
+            far, "get_courses", api_endpoint, api_method, **query_params
         )
 
     def test_get_courses(self, far):
@@ -292,10 +264,7 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.get_courses,
-            api_endpoint,
-            api_method,
-            **query_params,
+            far, "get_courses", api_endpoint, api_method, **query_params
         )
 
     def test_get_courses_taught(self, far):
@@ -303,10 +272,7 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.get_courses_taught,
-            api_endpoint,
-            api_method,
-            **query_params,
+            far, "get_courses_taught", api_endpoint, api_method, **query_params
         )
 
     def test_get_course_taught(self, far):
@@ -315,7 +281,8 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.get_course_taught,
+            far,
+            "get_course_taught",
             api_endpoint,
             api_method,
             course_taught_id,
@@ -328,7 +295,8 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.get_course_taught_attachments,
+            far,
+            "get_course_taught_attachments",
             api_endpoint,
             api_method,
             course_taught_id,
@@ -340,10 +308,7 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.get_evaluations,
-            api_endpoint,
-            api_method,
-            **query_params,
+            far, "get_evaluations", api_endpoint, api_method, **query_params
         )
 
     def test_get_vitae(self, far):
@@ -351,10 +316,7 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.get_vitae,
-            api_endpoint,
-            api_method,
-            **query_params,
+            far, "get_vitae", api_endpoint, api_method, **query_params
         )
 
     def test_get_vita(self, far):
@@ -364,12 +326,7 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.get_vita,
-            api_endpoint,
-            api_method,
-            user_id,
-            vita_id,
-            **query_params,
+            far, "get_vita", api_endpoint, api_method, user_id, vita_id, **query_params
         )
 
     def test_get_paginated_vitae(self, far):
@@ -378,7 +335,8 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.get_paginated_vitae,
+            far,
+            "get_paginated_vitae",
             api_endpoint,
             api_method,
             tenant_id,
@@ -391,7 +349,8 @@ class TestInterfolioFAR:
         api_method = "GET"
         query_params = {"param": "value"}
         assert_request_made_with_correct_arguments(
-            far.download_attachment,
+            far,
+            "download_attachment",
             api_endpoint,
             api_method,
             attachment_id,
