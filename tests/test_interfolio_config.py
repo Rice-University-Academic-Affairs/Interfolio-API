@@ -5,12 +5,36 @@ from src.interfolio_api.interfolio_config import (
     InterfolioConfig,
     InterfolioFARConfig,
     InterfolioFSConfig,
+    InterfolioRPTConfig,
 )
 
 FAR_DATABASE_ID = "FAR_DATABASE_ID"
 PUBLIC_KEY = "INTERFOLIO_PUBLIC_KEY"
 PRIVATE_KEY = "INTERFOLIO_PRIVATE_KEY"
 TENANT_ID = "INTERFOLIO_TENANT_ID"
+
+
+class TestInterfolioRPTConfig:
+    def test_initialization(self):
+        passed_in = InterfolioRPTConfig(TENANT_ID, PUBLIC_KEY, PRIVATE_KEY)
+        assert passed_in.tenant_id == TENANT_ID
+        assert passed_in.public_key == PUBLIC_KEY
+        assert passed_in.private_key == PRIVATE_KEY
+        assert passed_in.host == "logic.interfolio.com"
+
+    def test_initialization_from_env(self):
+        with mock.patch.dict(
+            os.environ,
+            {
+                TENANT_ID: TENANT_ID,
+                PUBLIC_KEY: PUBLIC_KEY,
+                PRIVATE_KEY: PRIVATE_KEY,
+            },
+        ):
+            from_env = InterfolioRPTConfig()
+            assert from_env.tenant_id == TENANT_ID
+            assert from_env.public_key == PUBLIC_KEY
+            assert from_env.private_key == PRIVATE_KEY
 
 
 class TestInterfolioFSConfig:

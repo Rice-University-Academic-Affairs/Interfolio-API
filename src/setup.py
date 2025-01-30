@@ -7,7 +7,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="interfolio_api",
-    version="0.6",
+    version="0.84",
     description="A Python client for Interfolio",
     long_description=long_description,
     long_description_content_type="text/markdown",

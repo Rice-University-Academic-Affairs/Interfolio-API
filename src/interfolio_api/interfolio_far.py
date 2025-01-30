@@ -1,8 +1,8 @@
 from .interfolio_config import InterfolioFARConfig
-from .interfolio_core import InterfolioCore
+from .interfolio_base import InterfolioBase
 
 
-class InterfolioFAR(InterfolioCore):
+class InterfolioFAR(InterfolioBase):
     def __init__(self, database_id=None, public_key=None, private_key=None):
         super().__init__(
             InterfolioFARConfig(

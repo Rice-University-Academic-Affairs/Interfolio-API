@@ -1,9 +1,9 @@
 from .interfolio_config import InterfolioFSConfig
-from .interfolio_core import InterfolioCore
+from .interfolio_base import InterfolioBase
 from urllib.parse import urlencode
 
 
-class InterfolioFS(InterfolioCore):
+class InterfolioFS(InterfolioBase):
     def __init__(self, tenant_id=None, public_key=None, private_key=None):
         super().__init__(
             InterfolioFSConfig(
@@ -35,6 +35,28 @@ class InterfolioFS(InterfolioCore):
         api_method = "GET"
         return self._build_and_send_request(api_endpoint, api_method)
 
+    def create_position(self, payload):
+        api_endpoint = f"/byc-search/{self.config.tenant_id}/positions"
+        api_method = "POST"
+        return self._build_and_send_request(api_endpoint, api_method, payload=payload)
+
+    def delete_position(self, position_id):
+        api_endpoint = f"/byc-search/{self.config.tenant_id}/positions/{position_id}"
+        api_method = "DELETE"
+        return self._build_and_send_request(api_endpoint, api_method)
+
+    def create_position_type(self, name, category_id):
+        api_endpoint = f"/byc-search/{self.config.tenant_id}/position_types"
+        api_method = "POST"
+        return self._build_and_send_request(
+            api_endpoint, api_method, payload={"name": name, "category_id": category_id}
+        )
+
+    def get_position_forms(self, position_id):
+        api_endpoint = f"/byc-search/{self.config.tenant_id}/positions/{position_id}/position_forms"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method)
+
     def get_applications(self, position_id):
         api_endpoint = (
             f"/byc-search/{self.config.tenant_id}/positions/{position_id}/applications"
@@ -47,12 +69,34 @@ class InterfolioFS(InterfolioCore):
         api_method = "GET"
         return self._build_and_send_request(api_endpoint, api_method)
 
+    def create_application(self, position_id, payload):
+        api_endpoint = (
+            f"/byc-search/{self.config.tenant_id}/positions/{position_id}/applications"
+        )
+        api_method = "POST"
+        return self._build_and_send_request(api_endpoint, api_method, payload=payload)
+
+    def delete_application(self, position_id, application_id):
+        api_endpoint = f"/byc-search/{self.config.tenant_id}/positions/{position_id}/applications/{application_id}"
+        api_method = "DELETE"
+        return self._build_and_send_request(api_endpoint, api_method)
+
     def get_application_eeo(self, position_id, application_id):
         api_endpoint = f"/byc-search/{self.config.tenant_id}/positions/{position_id}/applications/{application_id}/eeo_responses"
         api_method = "GET"
         return self._build_and_send_request(api_endpoint, api_method)
 
+    def create_application_eeo_responses(self, application_id, payload):
+        api_endpoint = f"/byc-search/{self.config.tenant_id}/byc_applications/{application_id}/responses/create_or_update_eeo"
+        api_method = "PUT"
+        return self._build_and_send_request(api_endpoint, api_method, payload=payload)
+
     def get_application_ratings(self, position_id, application_id):
         api_endpoint = f"/byc-search/{self.config.tenant_id}/positions/{position_id}/applications/{application_id}/application_ratings"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method)
+
+    def get_position_statuses(self, unit_id, status_type):
+        api_endpoint = f"/byc-search/{self.config.tenant_id}/units/{unit_id}/statuses/{status_type}"
         api_method = "GET"
         return self._build_and_send_request(api_endpoint, api_method)

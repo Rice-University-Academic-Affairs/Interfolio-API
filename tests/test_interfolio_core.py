@@ -15,9 +15,9 @@ class TestInterfolioCore:
         expected_url = core._build_api_url(api_endpoint, **query_params)
         expected_headers = core._build_headers(api_endpoint, api_method)
 
-        with mock.patch.object(core, "_make_request") as _make_request_mock:
+        with mock.patch.object(core, "_build_and_send_request") as _build_and_send_request_mock:
             core._build_and_send_request(api_endpoint, api_method, **query_params)
-            _make_request_mock.assert_called_with(expected_url, expected_headers)
+            _build_and_send_request_mock.assert_called_with(api_endpoint, api_method, **query_params)
 
     def test_api_url(self, core):
         api_endpoint = "/endpoint"

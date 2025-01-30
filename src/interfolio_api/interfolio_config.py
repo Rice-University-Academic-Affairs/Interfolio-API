@@ -46,3 +46,31 @@ class InterfolioFSConfig(InterfolioConfig):
             private_key, "private_key", "INTERFOLIO_PRIVATE_KEY"
         )
         self.host = "logic.interfolio.com"
+
+
+class InterfolioRPTConfig(InterfolioConfig):
+    def __init__(self, tenant_id=None, public_key=None, private_key=None):
+        self.tenant_id = self.get_or_raise(
+            tenant_id, "tenant_id", "INTERFOLIO_TENANT_ID"
+        )
+        self.public_key = self.get_or_raise(
+            public_key, "public_key", "INTERFOLIO_PUBLIC_KEY"
+        )
+        self.private_key = self.get_or_raise(
+            private_key, "private_key", "INTERFOLIO_PRIVATE_KEY"
+        )
+        self.host = "logic.interfolio.com"
+
+
+class InterfolioCoreConfig(InterfolioConfig):
+    def __init__(self, tenant_id=None, public_key=None, private_key=None):
+        self.tenant_id = self.get_or_raise(
+            tenant_id, "tenant_id", "INTERFOLIO_TENANT_ID"
+        )
+        self.public_key = self.get_or_raise(
+            public_key, "public_key", "INTERFOLIO_PUBLIC_KEY"
+        )
+        self.private_key = self.get_or_raise(
+            private_key, "private_key", "INTERFOLIO_PRIVATE_KEY"
+        )
+        self.host = "logic.interfolio.com"
