@@ -100,3 +100,31 @@ class InterfolioFS(InterfolioBase):
         api_endpoint = f"/byc-search/{self.config.tenant_id}/units/{unit_id}/statuses/{status_type}"
         api_method = "GET"
         return self._build_and_send_request(api_endpoint, api_method)
+
+    def create_application_attachment(
+        self, 
+        position_id,
+        application_id, 
+        display_name, 
+        file_path,
+    ):
+        api_endpoint = f"/byc-search/{self.config.tenant_id}/positions/{position_id}/byc_applications/{application_id}/application_attachments"
+        api_method = "POST"
+        
+        # Create the form data
+        data = {
+            "attachment[display_name]": display_name,
+        }
+        
+        # Open and send the PDF file
+        with open(file_path, 'rb') as pdf_file:
+            files = {
+                'attachment[file]': pdf_file
+            }
+            
+            return self._build_and_send_request(
+                api_endpoint, 
+                api_method, 
+                form_data=data,
+                files=files
+            )

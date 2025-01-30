@@ -13,15 +13,15 @@ class InterfolioBase:
         self.config = config
 
     def _build_and_send_request(
-        self, api_endpoint, api_method, payload=None, **query_params
+        self, api_endpoint, api_method, payload=None, form_data=None, files=None, **query_params
     ):
         api_url = self._build_api_url(api_endpoint, **query_params)
         headers = self._build_headers(api_endpoint, api_method, **query_params)
-        if api_method == "GET":
+        if api_method == "GET": 
             return self._make_get_request(api_url, headers)
         elif api_method == "POST":
             payload = payload if payload is not None else dict()
-            return self._make_post_request(api_url, headers, payload)
+            return self._make_post_request(api_url, headers, payload, form_data, files)
         elif api_method == "PUT":
             payload = payload if payload is not None else dict()
             return self._make_put_request(api_url,headers, payload)
@@ -61,17 +61,13 @@ class InterfolioBase:
             raise SystemExit(err)
 
     @staticmethod
-    def _make_post_request(api_url, headers, payload):
+    def _make_post_request(api_url, headers, payload, form_data=None, files=None):
         print("posting")
         try:
-            response = requests.post(api_url, headers=headers, json=payload)
-            print("------------")
-            print("url: ", response.request.url)
-            print("body: ", response.request.body)
-            print("headers: ", response.request.headers)
-            print("json: ", payload)
-            print("------------")
-            print(api_url, headers, payload)
+            if files:
+                response = requests.post(api_url, headers=headers, data=form_data, files=files)
+            else:
+                response = requests.post(api_url, headers=headers, json=payload)
             response.raise_for_status()
             return json.loads(response.text)
         except requests.exceptions.HTTPError as err:
