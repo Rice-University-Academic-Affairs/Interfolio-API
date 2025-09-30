@@ -101,6 +101,11 @@ class InterfolioFS(InterfolioBase):
         api_method = "GET"
         return self._build_and_send_request(api_endpoint, api_method)
 
+    def get_public_job_board(self, limit=200):
+        api_endpoint = f"/byc-search/{self.config.tenant_id}/public_job_boards"
+        api_method = "GET"
+        return self._build_and_send_request(api_endpoint, api_method, limit=limit)
+
     def create_application_attachment(
         self, 
         position_id,
